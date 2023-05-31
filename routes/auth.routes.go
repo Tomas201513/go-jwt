@@ -7,6 +7,7 @@ import (
 	"go-jwt/services"
 )
 
+
 type AuthRouteController struct {
 	authController controllers.AuthController
 }
@@ -22,4 +23,5 @@ func (rc *AuthRouteController) AuthRoute(rg *gin.RouterGroup, userService servic
 	router.POST("/login", rc.authController.SignInUser)
 	router.GET("/refresh", rc.authController.RefreshAccessToken)
 	router.GET("/logout", middleware.DeserializeUser(userService), rc.authController.LogoutUser)
+	router.GET("/verifyemail/:verificationCode", rc.authController.VerifyEmail)
 }

@@ -36,6 +36,7 @@ var (
 	AuthRouteController routes.AuthRouteController
 )
 
+
 func init() {
 	config, err := config.LoadConfig(".")
 	if err != nil {
@@ -78,7 +79,7 @@ func init() {
 	authCollection = mongoclient.Database("golang_mongodb").Collection("users")
 	userService = services.NewUserServiceImpl(authCollection, ctx)
 	authService = services.NewAuthService(authCollection, ctx)
-	AuthController = controllers.NewAuthController(authService, userService)
+	AuthController = controllers.NewAuthController(authService, userService, ctx, authCollection)
 	AuthRouteController = routes.NewAuthRouteController(AuthController)
 
 	UserController = controllers.NewUserController(userService)
@@ -105,7 +106,7 @@ func main() {
 	}
 
 	corsConfig := cors.DefaultConfig()
-	corsConfig.AllowOrigins = []string{"http://localhost:8000", "http://localhost:3000"}
+	corsConfig.AllowOrigins = []string{config.Origin}
 	corsConfig.AllowCredentials = true
 
 	server.Use(cors.New(corsConfig))

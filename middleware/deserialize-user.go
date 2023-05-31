@@ -10,7 +10,6 @@ import (
 	"go-jwt/services"
 	"go-jwt/utils"
 )
-
 func DeserializeUser(userService services.UserService) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var access_token string
